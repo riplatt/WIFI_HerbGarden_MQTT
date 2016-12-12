@@ -107,7 +107,7 @@ void loop()
     mqttClient.publish("herbgarden/battery/voltage/tag", "VI-0001");
     mqttClient.publish("herbgarden/battery/voltage/eu", "V");
     mqttClient.publish("herbgarden/battery/voltage/min", "0.00");
-    mqttClient.publish("herbgarden/battery/voltage/max", "");
+    mqttClient.publish("herbgarden/battery/voltage/max", "20.00");
 
     mqttClient.publish("herbgarden/battery/charge/value", String::format("%.4f", batteryMonitor.getSoC()));
     mqttClient.publish("herbgarden/battery/charge/tag", "XI-0001");

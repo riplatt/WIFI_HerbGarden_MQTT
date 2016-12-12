@@ -1,0 +1,6 @@
+# vs code
+.vscode
+
+# Partical product info & firmware
+product.h
+*.bin
