@@ -7,7 +7,6 @@
 void callback(char *topic, byte *payload, unsigned int length);
 
 // System setting
-STARTUP(System.enableFeature(FEATURE_RETAINED_MEMORY));
 SerialLogHandler logHandler(LOG_LEVEL_ALL);
 
 // Specify data and clock connections
@@ -19,8 +18,6 @@ PowerShield batteryMonitor;
 byte server[] = {192, 168, 1, 5};         //MQTT Server Address
 MQTT mqttClient(server, 1883, callback);
 // Define Variables
-retained float _lastTempC;
-retained float _lastHumidity;
 unsigned short int _qos2messageid = 0;
 long _sleepTime = 60; // 1 minute
 long _ms = 0;
@@ -100,7 +97,7 @@ void loop()
     mqttClient.publish("herbgarden/probe/temperature/min", "-40.00");
     mqttClient.publish("herbgarden/probe/temperature/max", "123.80");
 
-    mqttClient.publish("herbgarden/probe/humidity/value", String::format("%.4f%", _humidity));
+    mqttClient.publish("herbgarden/probe/humidity/value", String::format("%.4f", _humidity));
     mqttClient.publish("herbgarden/probe/humidity/tag", "AI-0001");
     mqttClient.publish("herbgarden/probe/humidity/eu", "%RH");
     mqttClient.publish("herbgarden/probe/humidity/min", "0.00");
@@ -112,14 +109,12 @@ void loop()
     mqttClient.publish("herbgarden/battery/voltage/min", "0.00");
     mqttClient.publish("herbgarden/battery/voltage/max", "");
 
-    mqttClient.publish("herbgarden/battery/charge/value", String::format("%.4f%", batteryMonitor.getSoC()));
+    mqttClient.publish("herbgarden/battery/charge/value", String::format("%.4f", batteryMonitor.getSoC()));
     mqttClient.publish("herbgarden/battery/charge/tag", "XI-0001");
     mqttClient.publish("herbgarden/battery/charge/eu", "%");
     mqttClient.publish("herbgarden/battery/charge/min", "0.00");
     mqttClient.publish("herbgarden/battery/charge/max", "100.00");
 
-    _lastTempC = _tempC;
-    _lastHumidity = _humidity;
   }
 
   // Check for a update
